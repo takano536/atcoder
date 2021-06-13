@@ -1,0 +1,10 @@
+.clang-format
+.vscode/
+calculator/
+ac-library/
+*.out
+*.txt
+
+ahc/ahc001/auto_test.py
+ahc/ahc001/tools/
+ahc/ahc003/tools/
