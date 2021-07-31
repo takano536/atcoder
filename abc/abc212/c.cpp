@@ -24,7 +24,7 @@ int main()
             index.push_back(i);
     int ans = 1e9;
     for (int i : index)
-        ans = min(abs(all[i].first - all[i + 1].first), ans);
+        ans = min(abs(all[i].first - all[i + 1].first), ans); 
 
     cout << ans << endl;
     return 0;
