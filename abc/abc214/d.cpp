@@ -24,7 +24,7 @@ int main()
         edge[i] = Edge{u, v, w};
     }
 
-    sort(edge.begin(), edge.end(), [](const Edge& p, const Edge& q){return p.w < q.w;});
+    sort(edge.begin(), edge.end(), [](const Edge& p, const Edge& q) { return p.w < q.w; });
     ll ans = 0;
     dsu d(n);
     for (const auto& e : edge)
