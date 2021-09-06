@@ -7,13 +7,6 @@ using ll = long long;
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-struct VeggieInfo
-{
-    int r, c, s, e, v;
-};
-
-//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
 filesystem::path p = filesystem::current_path();
 
 random_device rd;
@@ -42,18 +35,116 @@ private:
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+struct VeggieInfo
+{
+    int id;
+    int y, x, s, e, v;
+    bool operator<(const VeggieInfo& right) const
+    {
+        if (this->v != right.v)
+            return this->v < right.v;
+        if (this->s != right.s)
+            return this->s < right.s;
+        if (this->e != right.e)
+            return this->e < right.e;
+        if (this->x != right.x)
+            return this->x < right.x;
+        return this->y < right.y;
+    }
+    bool operator>(const VeggieInfo& right) const
+    {
+        if (this->v != right.v)
+            return this->v > right.v;
+        if (this->s != right.s)
+            return this->s < right.s;
+        if (this->e != right.e)
+            return this->e < right.e;
+        if (this->x != right.x)
+            return this->x < right.x;
+        return this->y < right.y;
+    }
+};
+
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+struct Machine
+{
+    int id;
+    int y, x;
+
+    Machine(int id, int y, int x)
+    {
+        this->id = id;
+        this->y = y;
+        this->x = x;
+    }
+};
+
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
 void receive_input(vector<VeggieInfo>& veggies)
 {
+    int cnt = 0;
     for (auto& veggie : veggies)
-        cin >> veggie.r >> veggie.c >> veggie.s >> veggie.e >> veggie.v;
+        cin >> veggie.y >> veggie.x >> veggie.s >> veggie.e >> veggie.v, veggie.id = cnt++;
 }
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-void get_answer(const tuple<int, int, int>& constant, vector<VeggieInfo>& veggies, vector<vector<int>>& ans)
+void get_answer(const int n, const int m, const int t, vector<VeggieInfo>& veggies, vector<vector<int>>& ans)
 {
-    for (auto& v : ans)
-        v.push_back(-1);
+    set<VeggieInfo, greater<VeggieInfo>> harvested_veggies;
+    vector<VeggieInfo> s_sorted_veggies = veggies;
+    sort(s_sorted_veggies.begin(), s_sorted_veggies.end(), [](const VeggieInfo& p, const VeggieInfo& q) { return p.s != q.s ? p.s < q.s : p.e < q.e; });
+    auto grow_iter = s_sorted_veggies.begin();
+    vector<VeggieInfo> e_sorted_veggies = veggies;
+    sort(e_sorted_veggies.begin(), e_sorted_veggies.end(), [](const VeggieInfo& p, const VeggieInfo& q) { return p.e != q.e ? p.e < q.e : p.s < q.s; });
+    auto die_iter = e_sorted_veggies.begin();
+
+    vector<Machine> machines;
+    int fund = 1;
+    int price = 1;
+    int harvest_amount = 0;
+
+    for (int date = 0; date < t; date++)
+    {
+        while (grow_iter != s_sorted_veggies.end() && grow_iter->s <= date)
+        {
+            // 生えた野菜の更新
+            harvested_veggies.insert(*grow_iter);
+            grow_iter++;
+        }
+
+        // 行動の選択
+        if (harvested_veggies.size() > 0 && price == 1)
+        {
+            // 収穫機の購入
+            VeggieInfo target_veggie = *harvested_veggies.begin();
+            harvested_veggies.erase(harvested_veggies.begin());
+            ans[date].push_back(target_veggie.y), ans[date].push_back(target_veggie.x);
+            machines.push_back({static_cast<int>(machines.size()), target_veggie.y, target_veggie.x});
+            price = pow(machines.size() + 1, 3);
+        }
+        else if (harvested_veggies.size() > 0)
+        {
+            // 収穫機の移動
+            VeggieInfo target_veggie = *harvested_veggies.begin();
+            harvested_veggies.erase(harvested_veggies.begin());
+            ans[date].push_back(machines[0].y), ans[date].push_back(machines[0].x), ans[date].push_back(target_veggie.y), ans[date].push_back(target_veggie.x);
+            machines[0].x = target_veggie.x, machines[0].y = target_veggie.y;
+        }
+        else
+        {
+            ans[date].push_back(-1);
+        }
+
+        while (die_iter != e_sorted_veggies.end() && die_iter->e <= date)
+        {
+            // 枯れた野菜の更新
+            harvested_veggies.erase(*die_iter);
+            die_iter++;
+        }
+    }
 }
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -98,9 +189,9 @@ int main()
     receive_input(veggies);
 
     vector<vector<int>> ans(t);
-    get_answer({n, m, t}, veggies, ans);
+    get_answer(n, m, t, veggies, ans);
 
     output_answer(ans);
-    // generate_output_file(ans);
+    generate_output_file(ans);
     return 0;
 }
