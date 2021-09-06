@@ -74,7 +74,7 @@ void output_answer(const vector<vector<int>>& ans)
 
 int generate_output_file(const vector<vector<int>>& ans)
 {
-    ofstream ofs(p.parent_path().string<char>() + "/rcl-contest-2021-long/tester/output.txt");
+    ofstream ofs(p.parent_path().string<char>() + "/rcl-contest-2021-long/tools/tester/output.txt");
     if (!ofs)
         return -1;
     for (const auto& v : ans)
