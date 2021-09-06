@@ -93,7 +93,7 @@ void receive_input(vector<VeggieInfo>& veggies)
 
 void get_answer(const int n, const int m, const int t, vector<VeggieInfo>& veggies, vector<vector<int>>& ans)
 {
-    set<VeggieInfo, greater<VeggieInfo>> harvested_veggies;
+    set<VeggieInfo, greater<VeggieInfo>> grow_veggies;
     vector<VeggieInfo> s_sorted_veggies = veggies;
     sort(s_sorted_veggies.begin(), s_sorted_veggies.end(), [](const VeggieInfo& p, const VeggieInfo& q) { return p.s != q.s ? p.s < q.s : p.e < q.e; });
     auto grow_iter = s_sorted_veggies.begin();
@@ -102,46 +102,84 @@ void get_answer(const int n, const int m, const int t, vector<VeggieInfo>& veggi
     auto die_iter = e_sorted_veggies.begin();
 
     vector<Machine> machines;
+    pair<int, int> next_install_coord = make_pair(0, 0);
+    vector<vector<bool>> is_installed(n, vector<bool>(n, false));
+
     int fund = 1;
     int price = 1;
     int harvest_amount = 0;
 
     for (int date = 0; date < t; date++)
     {
+        // 生えた野菜の更新
         while (grow_iter != s_sorted_veggies.end() && grow_iter->s <= date)
         {
-            // 生えた野菜の更新
-            harvested_veggies.insert(*grow_iter);
+            grow_veggies.insert(*grow_iter);
             grow_iter++;
         }
 
+        bool is_acted = false;
         // 行動の選択
-        if (harvested_veggies.size() > 0 && price == 1)
+        if (grow_veggies.size() > 0 && machines.size() == 0)
+        {
+            // 一つも収穫機がない時
+            auto veggie = *grow_veggies.begin();
+            grow_veggies.erase(grow_veggies.begin());
+            ans[date].push_back(veggie.y), ans[date].push_back(veggie.x);
+            machines.push_back({static_cast<int>(machines.size()), veggie.y, veggie.x});
+            is_installed[veggie.y][veggie.x] = true;
+            fund -= price;
+            fund += veggie.v;
+            price = pow(machines.size() + 1, 3);
+            is_acted = true;
+        }
+        else if (fund >= price && !is_installed[next_install_coord.first][next_install_coord.second])
         {
             // 収穫機の購入
-            VeggieInfo target_veggie = *harvested_veggies.begin();
-            harvested_veggies.erase(harvested_veggies.begin());
-            ans[date].push_back(target_veggie.y), ans[date].push_back(target_veggie.x);
-            machines.push_back({static_cast<int>(machines.size()), target_veggie.y, target_veggie.x});
+            ans[date].push_back(next_install_coord.first), ans[date].push_back(next_install_coord.second);
+            machines.push_back({static_cast<int>(machines.size()), next_install_coord.first, next_install_coord.second});
+            is_installed[next_install_coord.first][next_install_coord.second] = true;
+            next_install_coord.second = (next_install_coord.second + 1) % n;
+            next_install_coord.first = (next_install_coord.second == 0 ? next_install_coord.first + 1 : next_install_coord.first);
+            fund -= price;
             price = pow(machines.size() + 1, 3);
+            is_acted = true;
         }
-        else if (harvested_veggies.size() > 0)
+        else if (grow_veggies.size() > 0)
         {
             // 収穫機の移動
-            VeggieInfo target_veggie = *harvested_veggies.begin();
-            harvested_veggies.erase(harvested_veggies.begin());
-            ans[date].push_back(machines[0].y), ans[date].push_back(machines[0].x), ans[date].push_back(target_veggie.y), ans[date].push_back(target_veggie.x);
-            machines[0].x = target_veggie.x, machines[0].y = target_veggie.y;
+            auto veggie = *grow_veggies.begin();
+            bool has_found = false;
+            for (auto iter = grow_veggies.begin(); iter != grow_veggies.end(); iter++)
+            {
+                if (!is_installed[iter->y][iter->x])
+                {
+                    veggie = *iter;
+                    grow_veggies.erase(iter);
+                    has_found = true;
+                    break;
+                }
+            }
+            if (has_found)
+            {
+                ans[date].push_back(machines[0].y), ans[date].push_back(machines[0].x), ans[date].push_back(veggie.y), ans[date].push_back(veggie.x);
+                is_installed[machines[0].y][machines[0].x] = false;
+                is_installed[veggie.y][veggie.x] = true;
+                machines[0].x = veggie.x, machines[0].y = veggie.y;
+                fund += veggie.v;
+                is_acted = true;
+            }
         }
-        else
+        if (!is_acted)
         {
+            // 何もしない
             ans[date].push_back(-1);
         }
 
+        // 枯れた野菜の更新
         while (die_iter != e_sorted_veggies.end() && die_iter->e <= date)
         {
-            // 枯れた野菜の更新
-            harvested_veggies.erase(*die_iter);
+            grow_veggies.erase(*die_iter);
             die_iter++;
         }
     }
@@ -191,7 +229,7 @@ int main()
     vector<vector<int>> ans(t);
     get_answer(n, m, t, veggies, ans);
 
-    output_answer(ans);
+    // output_answer(ans);
     generate_output_file(ans);
     return 0;
 }
