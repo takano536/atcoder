@@ -89,13 +89,14 @@ void receive_input(vector<VeggieInfo>& veggies)
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+// 一つだけ動かして、資金に余裕ができたら上の方に収穫機を固めて置く
 void get_answer(const int n, const int m, const int t, vector<VeggieInfo>& veggies, vector<vector<int>>& ans)
 {
     set<VeggieInfo, greater<VeggieInfo>> grow_veggies;  // 価値順にソートされた収穫できる野菜の集合
 
     VeggieInfo veggies_map[n + 1][n + 1];  // key が 座標の map
     rep (i, n + 1)
-        rep (j, +1)
+        rep (j, n + 1)
             veggies_map[i][j] = {-1, -1, -1, -1, -1};
 
     vector<VeggieInfo> s_sorted_veggies = veggies;  //　grow_veggies で使用
@@ -118,6 +119,7 @@ void get_answer(const int n, const int m, const int t, vector<VeggieInfo>& veggi
     for (int date = 0; date < t; date++)
     {
         today_profit = 0;
+
         // 生えた野菜の更新
         while (grow_iter != s_sorted_veggies.end() && grow_iter->s <= date)
         {
