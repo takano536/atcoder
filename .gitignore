@@ -1,7 +1,8 @@
-.clang-format
 .vscode/
 calculator/
 ac-library/
+atcoder-env/
+.clang-format
 *.out
 *.txt
 
