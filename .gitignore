@@ -1,8 +1,8 @@
 .vscode/
-calculator/
 ac-library/
-atcoder-env/
+.atcoder-venv/
 .clang-format
+.python-version
 *.out
 *.txt
 
