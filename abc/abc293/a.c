@@ -16,4 +16,5 @@ int main(void)
     }
 
     printf("%s", ans);
+    return 0;
 }
