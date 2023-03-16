@@ -15,6 +15,6 @@ int main(void)
         ans[i + 1] = s[i];
     }
 
-    printf("%s", ans);
+    printf("%s\n", ans);
     return 0;
 }
