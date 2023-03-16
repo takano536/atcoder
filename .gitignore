@@ -4,7 +4,9 @@ ac-library/
 .clang-format
 .python-version
 *.out
+*.exe
 *.txt
+*.html
 
 ahc/ahc001/tools/
 ahc/ahc003/tools/
