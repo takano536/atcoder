@@ -7,7 +7,3 @@ ac-library/
 *.exe
 *.txt
 *.html
-
-ahc/ahc001/tools/
-ahc/ahc003/tools/
-ahc/rcl-contest-2021-long/tools/
