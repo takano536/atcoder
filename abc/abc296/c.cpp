@@ -1,5 +1,5 @@
-#include <set>
 #include <iostream>
+#include <set>
 #include <vector>
 
 int main() {
@@ -19,7 +19,7 @@ int main() {
             satisfies = true;
         }
     }
-    
+
     std::cout << (satisfies ? "Yes" : "No") << std::endl;
     return 0;
 }
