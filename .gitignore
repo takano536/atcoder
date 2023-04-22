@@ -1,6 +1,7 @@
 .vscode/
 ac-library/
 .atcoder-venv/
+tmp/
 *.out
 *.exe
 *.txt
