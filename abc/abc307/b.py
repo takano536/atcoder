@@ -1,7 +1,5 @@
 n = int(input())
-s = list()
-for _ in range(n):
-    s.append(input())
+s = list(input() for _ in range(n))
 
 satisfies = False
 for i in range(n):

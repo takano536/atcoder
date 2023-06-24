@@ -1,8 +1,3 @@
 n = int(input())
 a = list(map(int, input().split()))
-ans = 0
-for i, ai in enumerate(a):
-    ans += ai
-    if (i + 1) % 7 == 0:
-        print(ans)
-        ans = 0
+print(' '.join([str(sum(a[i*7:(i+1)*7])) for i in range(n)]))
