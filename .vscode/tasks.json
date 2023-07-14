@@ -1,0 +1,27 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++ アクティブなファイルのビルド",
+			"command": "${env:LOCALAPPDATA}\\mingw64\\bin\\g++.exe",
+			"args": [
+				"-std=gnu++17",
+				"-g",
+				"${file}",
+				"-I",
+				"${workspaceFolder}\\ac-library",
+				"-o",
+				"${fileDirname}\\debug.exe",
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "コンパイラ: ${env:LOCALAPPDATA}\\mingw64\\bin\\g++.exe"
+		}
+	]
+}
