@@ -1,4 +1,3 @@
-#include <functional>
 #include <iostream>
 #include <vector>
 
@@ -17,7 +16,7 @@ int main() {
     }
 
     int ans = 0;
-    std::function<void(std::vector<int> &, int)> dfs = [&](std::vector<int> &team, int curr_player) -> void {
+    auto dfs = [&](auto dfs, std::vector<int> &team, int curr_player) -> void {
         int team_size = team.size();
 
         if (curr_player == n) {
@@ -32,20 +31,20 @@ int main() {
             }
             auto next = team;
             next[i] |= (1 << curr_player);    // teamにcurr_playerを追加
-            dfs(next, curr_player + 1);
+            dfs(dfs, next, curr_player + 1);
         }
 
         if (team_size < t) {
             auto next = team;
             next.push_back(1 << curr_player);
-            dfs(next, curr_player + 1);
+            dfs(dfs, next, curr_player + 1);
         }
 
         return;
     };
 
     std::vector<int> team;
-    dfs(team, 0);
+    dfs(dfs, team, 0);
 
     std::cout << ans << std::endl;
     return 0;
