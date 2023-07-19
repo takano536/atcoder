@@ -45,10 +45,10 @@ IncludeBlocks: Preserve
 # swicth分のcaseにインデントを設定する
 IndentCaseLabels: true
 
-# インデントは4スペース
+# インデントの幅
 IndentWidth: 4
 
-# ポインターの * & は変数宣言の左に記述する
+# ポインターの * & は変数宣言の位置
 PointerAlignment: Right
 
 # キャストの後ろにスペースを入れない
@@ -57,5 +57,5 @@ SpaceAfterCStyleCast: false
 # 制御文の ( の前にスペースを入れる
 SpaceBeforeParens: ControlStatements
 
-# コメントの前に4スペース入れる
-SpacesBeforeTrailingComments: 4
+# コメントの前のスペースの数
+SpacesBeforeTrailingComments: 2
