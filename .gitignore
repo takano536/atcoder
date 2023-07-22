@@ -3,7 +3,7 @@ tempCodeRunnerFile.*
 *.exe
 *.txt
 *.html
-.vscode
+.vscode/
 ac-library/
 .atcoder-venv/
 tmp/
