@@ -1,0 +1,47 @@
+{
+    "configurations": [
+        {
+            "name": "(Linux gdb) Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}\\debug.out",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "preLaunchTask": "C/C++: Linux g++ debug build active file",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(Windows MinGW gdb) Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/debug.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "${env:LOCALAPPDATA}\\mingw64\\bin\\gdb.exe",
+            "preLaunchTask": "C/C++: Windows MinGW g++ debug build active file",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ],
+    "version": "0.2.0"
+}
