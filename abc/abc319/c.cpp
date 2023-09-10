@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
+#include <numeric>
 #include <vector>
 
 int main() {
@@ -9,78 +10,65 @@ int main() {
         std::cin >> c[i];
     }
 
-    auto search_row = [&](const std::vector<int> &v) {
-        bool is_sad = false;
-        for (int i = 0; i < 3; i++) {
-            if (is_sad) {
-                break;
-            }
-            std::vector<std::pair<int, int>> nums;
-            for (int j = 0; j < 9; j++) {
-                if (j == i * 3 || j == i * 3 + 1 || j == i * 3 + 2) {
-                    nums.emplace_back(v[j], c[j]);
-                }
-            }
-            std::sort(nums.begin(), nums.end());
-            is_sad = nums[0].second == nums[1].second;
-        }
-        return is_sad;
-    };
-    auto search_column = [&](const std::vector<int> &v) {
-        bool is_sad = false;
-        for (int i = 0; i < 3; i++) {
-            if (is_sad) {
-                break;
-            }
-            std::vector<std::pair<int, int>> nums;
-            for (int j = 0; j < 9; j++) {
-                if (j % 3 == i) {
-                    nums.emplace_back(v[j], c[j]);
-                }
-            }
-            std::sort(nums.begin(), nums.end());
-            is_sad = nums[0].second == nums[1].second;
-        }
-        return is_sad;
-    };
-    auto search_diagonal = [&](const std::vector<int> &v) {
-        bool is_sad = false;
-        {
-            std::vector<std::pair<int, int>> nums;
-            for (int i = 0; i < 9; i++) {
-                if (i == 0 || i == 4 || i == 8) {
-                    nums.emplace_back(v[i], c[i]);
-                }
-            }
-            std::sort(nums.begin(), nums.end());
-            is_sad = nums[0].second == nums[1].second;
-            if (is_sad) {
-                return is_sad;
-            }
-        }
-        {
-            std::vector<std::pair<int, int>> nums;
-            for (int i = 0; i < 9; i++) {
-                if (i == 2 || i == 4 || i == 6) {
-                    nums.emplace_back(v[i], c[i]);
-                }
-            }
-            std::sort(nums.begin(), nums.end());
-            is_sad = nums[0].second == nums[1].second;
-        }
-        return is_sad;
-    };
-
     int sad_cnt = 0;
     int total = 0;
     std::vector<int> order(9);
-    for (int i = 0; i < 9; i++) {
-        order[i] = i;
-    }
+    std::iota(order.begin(), order.end(), 0);
+
     do {
         total++;
-        if (search_row(order) || search_column(order) || search_diagonal(order)) {
-            sad_cnt++;
+
+        std::vector<std::vector<std::pair<int, int>>> array_infos;
+        // row
+        array_infos.push_back({
+            std::make_pair(order[0], c[0]),
+            std::make_pair(order[1], c[1]),
+            std::make_pair(order[2], c[2]),
+        });
+        array_infos.push_back({
+            std::make_pair(order[3], c[3]),
+            std::make_pair(order[4], c[4]),
+            std::make_pair(order[5], c[5]),
+        });
+        array_infos.push_back({
+            std::make_pair(order[6], c[6]),
+            std::make_pair(order[7], c[7]),
+            std::make_pair(order[8], c[8]),
+        });
+        // column
+        array_infos.push_back({
+            std::make_pair(order[0], c[0]),
+            std::make_pair(order[3], c[3]),
+            std::make_pair(order[6], c[6]),
+        });
+        array_infos.push_back({
+            std::make_pair(order[1], c[1]),
+            std::make_pair(order[4], c[4]),
+            std::make_pair(order[7], c[7]),
+        });
+        array_infos.push_back({
+            std::make_pair(order[2], c[2]),
+            std::make_pair(order[5], c[5]),
+            std::make_pair(order[8], c[8]),
+        });
+        // diagonal
+        array_infos.push_back({
+            std::make_pair(order[0], c[0]),
+            std::make_pair(order[4], c[4]),
+            std::make_pair(order[8], c[8]),
+        });
+        array_infos.push_back({
+            std::make_pair(order[2], c[2]),
+            std::make_pair(order[4], c[4]),
+            std::make_pair(order[6], c[6]),
+        });
+
+        for (auto array_info : array_infos) {
+            std::sort(array_info.begin(), array_info.end());
+            if (array_info[0].second == array_info[1].second) {
+                sad_cnt++;
+                break;
+            }
         }
     } while (std::next_permutation(order.begin(), order.end()));
 
