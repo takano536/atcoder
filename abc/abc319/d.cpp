@@ -11,7 +11,7 @@ int main() {
         std::cin >> l[i];
     }
 
-    long long ng = 0;
+    long long ng = *std::max_element(l.begin(), l.end()) - 1;
     long long ok = 1e18;
     while (ok - ng > 1) {
         long long mid = (ok + ng) / 2;
@@ -32,6 +32,6 @@ int main() {
         }
     }
 
-    std::cout << std::max(ok, static_cast<long long>(*std::max_element(l.begin(), l.end()))) << std::endl;
+    std::cout << ok << std::endl;
     return 0;
 }
