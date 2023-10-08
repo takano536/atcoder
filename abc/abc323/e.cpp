@@ -11,6 +11,7 @@ int main() {
 
     int n, x;
     std::cin >> n >> x;
+    const modint N_INV = modint(1) / n;
 
     std::vector<int> t(n);
     for (int i = 0; i < n; i++) {
@@ -28,13 +29,13 @@ int main() {
             if (dp[i - t[j]].val() == 0) {
                 continue;
             }
-            dp[i] += dp[i - t[j]] / n;
+            dp[i] += dp[i - t[j]] * N_INV;
         }
     }
 
     modint ans = 0;
     for (int i = std::max(0, x - t[TARGET_IDX] + 1); i <= x; i++) {
-        ans += dp[i] / n;
+        ans += dp[i] * N_INV;
     }
 
     std::cout << ans.val() << std::endl;
