@@ -1,8 +1,0 @@
-{
-    "code-runner.executorMap": {
-        // "c": "cd $dir && gcc -std=gnu11 -O2 $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-        "c": "cd $dir && g++ -std=gnu++17 -I$workspaceRoot\\ac-library -Wall -Wextra -O2 $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-        "cpp": "cd $dir && g++ -std=gnu++17 -I$workspaceRoot\\ac-library -Wall -Wextra -O2 $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-        "python": "cd $dir && python -u $fileName",
-    }
-}
