@@ -1,3 +1,3 @@
 # AtCoder
-Solutions to AtCoder. The library I am using is [AtCoder Library](https://github.com/atcoder/ac-library).  
+Solutions to AtCoder.
 Username: [iis914](https://atcoder.jp/users/iis914)  
