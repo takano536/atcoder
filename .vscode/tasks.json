@@ -25,7 +25,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-std=gnu++20",
-                "-I${workspaceFolder}/ac-library",
+                "-I${workspaceRoot}/ac-library",
                 "-Wall",
                 "-Wextra",
                 "-g3",
@@ -33,6 +33,19 @@
                 "${file}",
                 "-o",
                 "debug.out"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Shell: Remove executable file",
+            "command": "rm",
+            "args": [
+                "-f",
+                "debug.out",
+                "debug.exe"
             ],
             "options": {
                 "cwd": "${fileDirname}"

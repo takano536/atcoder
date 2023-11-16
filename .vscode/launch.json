@@ -1,10 +1,10 @@
 {
     "configurations": [
         {
-            "name": "[Linux gdb] Debug",
+            "name": "[Linux] Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}\\debug.out",
+            "program": "${fileDirname}/debug.out",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
@@ -19,13 +19,14 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "postDebugTask": "Shell: Remove executable file"
         },
         {
-            "name": "[MinGW gdb] Debug",
+            "name": "[MinGW] Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/debug.exe",
+            "program": "${fileDirname}\\debug.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
@@ -40,7 +41,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "postDebugTask": "Shell: Remove executable file"
         }
     ],
     "version": "0.2.0"
