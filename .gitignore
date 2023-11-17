@@ -1,4 +1,7 @@
 tempCodeRunnerFile.*
+tmp.*
+temp.*
+
 *.out
 *.exe
 *.txt
@@ -9,5 +12,6 @@ ac-library/
 .atcoder-venv/
 tmp/
 .vscode/settings.json
+
 
 !requirements.txt
