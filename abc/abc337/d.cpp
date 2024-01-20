@@ -23,19 +23,11 @@ int main() {
         int o_cnt = 0;
         for (int i = 0; i < len; i++) {
             curr.push_back(s[i]);
-            if (s[i] == 'x') {
-                x_cnt++;
-            }
-            if (s[i] == 'o') {
-                o_cnt++;
-            }
+            x_cnt += s[i] == 'x';
+            o_cnt += s[i] == 'o';
             if (static_cast<int>(curr.size()) > k) {
-                if (curr.front() == 'x') {
-                    x_cnt--;
-                }
-                if (curr.front() == 'o') {
-                    o_cnt--;
-                }
+                x_cnt -= curr.front() == 'x';
+                o_cnt -= curr.front() == 'o';
                 curr.pop_front();
             }
             if (x_cnt > 0 || static_cast<int>(curr.size()) < k) {
