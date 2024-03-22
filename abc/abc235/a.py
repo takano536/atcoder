@@ -1,0 +1,5 @@
+num = str(input())
+ans = int(num)
+ans += 100 * int(num[1]) + 10 * int(num[2]) + 1 * int(num[0])
+ans += 100 * int(num[2]) + 10 * int(num[0]) + 1 * int(num[1])
+print(ans)
