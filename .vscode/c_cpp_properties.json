@@ -3,7 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}\\ac-library\\**"
+                "${env:HOME}\\.local\\lib"
             ],
             "defines": [
                 "_DEBUG",
@@ -19,7 +19,7 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/ac-library/**"
+                "${env:HOME}/.local/lib"
             ],
             "defines": [
                 "_DEBUG",

@@ -7,11 +7,10 @@ temp.*
 *.txt
 *.html
 
-
 ac-library/
-.atcoder-venv/
+ac-library
+.venv/
 tmp/
 .vscode/settings.json
-
 
 !requirements.txt
