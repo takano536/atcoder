@@ -3,7 +3,7 @@
         {
             "type": "cppbuild",
             "label": "C/C++: Windows MinGW g++ debug build active file",
-            "command": "${env:LOCALAPPDATA}\\mingw64\\bin\\g++.exe",
+            "command": "${env:SCOOP}\\apps\\mingw\\current\\bin\\g++.exe",
             "args": [
                 "-std=gnu++20",
                 "-I${workspaceFolder}\\ac-library",

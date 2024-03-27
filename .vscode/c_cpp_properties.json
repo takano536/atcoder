@@ -11,7 +11,7 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "8.1",
-            "compilerPath": "${env:LOCALAPPDATA}\\MinGW\\bin\\gcc.exe",
+            "compilerPath": "${env:SCOOP}\\apps\\mingw\\current\\bin\\gcc.exe",
             "cStandard": "gnu11",
             "cppStandard": "gnu++20",
             "intelliSenseMode": "windows-gcc-x64"
