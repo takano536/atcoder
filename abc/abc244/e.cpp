@@ -16,7 +16,7 @@ int main() {
         graph[v].push_back(u);
     }
 
-    // dp[i番目まで決めた][末尾がの番号がj][false:xが奇数回,true:xが偶数回]=数列の数
+    // dp[i番目まで決めた][末尾の番号がj][false:xが奇数回,true:xが偶数回]=数列の数
     std::vector dp(k + 1, std::vector(n, std::vector<atcoder::modint>(2)));
     dp[0][s][true] = 1;
     for (int i = 1; i <= k; i++) {
