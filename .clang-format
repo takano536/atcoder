@@ -1,32 +1,22 @@
 ---
-# 引数は左揃え
-AlignAfterOpenBracket: BlockIndent
-
-# 連続する行の = の位置を揃える
-AlignConsecutiveAssignments: false
-
-# 連続する行の宣言の位置を揃える
-AlignConsecutiveDeclarations: false
-
-# マクロの位置を揃える
-AlignConsecutiveMacros: true
-
-# 二項演算子と三項演算子を揃える
-AlignOperands: true
-
-# 連続する行のコメントの位置揃える
-AlignTrailingComments: true
-
-# 短い関数を単一行にしない
-AllowShortFunctionsOnASingleLine: None
-
-# { } の位置をカスタム設定する
-BreakBeforeBraces: Custom
-
-# { } の位置
-# "BreakBeforeBraces: Custom" の場合に有効となる
-# true なら独立行にする
-BraceWrapping:
+AlignConsecutiveAssignments: false     # 連続する行の = の位置を揃える
+AlignConsecutiveDeclarations: false    # 連続する行の宣言の位置を揃える
+AlignTrailingComments: true            # 連続する行のコメントの位置揃える
+AlignAfterOpenBracket: BlockIndent     # 引数は左揃え
+AlignConsecutiveMacros: true           # マクロの位置を揃える
+AlignOperands: true                    # 二項演算子と三項演算子を揃える
+AllowShortFunctionsOnASingleLine: None # 短い関数は1行で書かない
+ColumnLimit: 0                         # 1行の文字数を制限する (0で無制限)
+IncludeBlocks: Preserve                # includeを名前順にソートする
+IndentCaseLabels: true                 # swicth分のcaseにインデントを設定する
+IndentWidth: 4                         # インデントの幅
+PointerAlignment: Right                #  ポインターの * & は変数宣言の位置
+SpaceAfterCStyleCast: false            #  キャストの後ろにスペースを入れない
+SpaceBeforeParens: ControlStatements   #  制御文の ( の前にスペースを入れる
+SpacesBeforeTrailingComments: 2        #  コメントの前のスペースの数
+AllowShortBlocksOnASingleLine: false   #  簡単なif文は1行で書金井
+BreakBeforeBraces: Custom              # { } の位置をカスタム設定する
+BraceWrapping:                         # { } の位置, "BreakBeforeBraces: Custom" の場合に有効, true なら独立行にする
     AfterControlStatement: false
     AfterEnum: true
     AfterFunction: false
@@ -35,27 +25,3 @@ BraceWrapping:
     AfterExternBlock: false
     BeforeCatch: false
     BeforeElse: false
-
-# 1行の文字数を制限する (0で無制限)
-ColumnLimit: 0
-
-# includeを名前順にソートする
-IncludeBlocks: Preserve
-
-# swicth分のcaseにインデントを設定する
-IndentCaseLabels: true
-
-# インデントの幅
-IndentWidth: 4
-
-# ポインターの * & は変数宣言の位置
-PointerAlignment: Right
-
-# キャストの後ろにスペースを入れない
-SpaceAfterCStyleCast: false
-
-# 制御文の ( の前にスペースを入れる
-SpaceBeforeParens: ControlStatements
-
-# コメントの前のスペースの数
-SpacesBeforeTrailingComments: 2
