@@ -11,6 +11,5 @@ ac-library/
 ac-library
 .venv/
 tmp/
-.vscode/settings.json
 
 !requirements.txt
