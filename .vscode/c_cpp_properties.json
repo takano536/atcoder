@@ -19,7 +19,7 @@
         {
             "name": "Linux",
             "includePath": [
-                "$HOME/.local/include"
+                "${env:HOME}/.local/include"
             ],
             "defines": [
                 "_DEBUG",
