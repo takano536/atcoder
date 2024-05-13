@@ -89,6 +89,8 @@
         "thread": "cpp",
         "typeindex": "cpp",
         "variant": "cpp",
-        "strstream": "cpp"
+        "strstream": "cpp",
+        "format": "cpp",
+        "stdfloat": "cpp"
     },
 }
