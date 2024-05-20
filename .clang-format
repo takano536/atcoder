@@ -17,7 +17,6 @@ AllowShortFunctionsOnASingleLine: All                 # 関数を一行で書く
 AllowShortBlocksOnASingleLine: false                  # if や for 文で {} ブロックがある場合は行数に関わらず、改行する。
 AllowShortIfStatementsOnASingleLine: true             # if 文で {} ブロックなしの場合に1行にする。
 AllowShortLoopsOnASingleLine: true                    # for 文で {} ブロックなしの場合に1行にする。
-AllowShortIfStatementsOnASingleLine: true             # while 文を一行で書く
 AllowShortCaseLabelsOnASingleLine: true               # switch 文で case を一行にする
 ConstructorInitializerAllOnOneLineOrOnePerLine: false # コンストラクタの初期化部分が行に収まらない場合、1行ずつ表示する。
 BreakBeforeBraces: Custom                             # { } の位置をカスタム設定する
