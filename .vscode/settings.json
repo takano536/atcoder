@@ -91,6 +91,7 @@
         "variant": "cpp",
         "strstream": "cpp",
         "format": "cpp",
-        "stdfloat": "cpp"
+        "stdfloat": "cpp",
+        "segtree": "cpp"
     },
 }
