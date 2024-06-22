@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.m": "matlab",
         "atomic": "cpp",
         "string": "cpp",
         "array": "cpp",
@@ -92,6 +93,7 @@
         "strstream": "cpp",
         "format": "cpp",
         "stdfloat": "cpp",
-        "segtree": "cpp"
+        "segtree": "cpp",
+        "modint": "cpp"
     },
 }
