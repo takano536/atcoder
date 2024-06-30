@@ -28,16 +28,16 @@ int main() {
     std::ranges::sort(unique_x);
     unique_x.erase(std::unique(unique_x.begin(), unique_x.end()), unique_x.end());
 
-    std::vector<int> commpressed_x(n);
+    std::vector<int> compressed_x(n);
     for (int i = 0; i < n; i++) {
-        commpressed_x[i] = std::ranges::lower_bound(unique_x, added_x[i]) - unique_x.begin();
+        compressed_x[i] = std::ranges::lower_bound(unique_x, added_x[i]) - unique_x.begin();
     }
 
     long long ans = 0;
     atcoder::fenwick_tree<int> bit(n);
     for (int i = 0; i < n; i++) {
-        ans += i - bit.sum(0, commpressed_x[i]);
-        bit.add(commpressed_x[i], 1);
+        ans += i - bit.sum(0, compressed_x[i]);
+        bit.add(compressed_x[i], 1);
     }
 
     std::cout << ans << std::endl;
