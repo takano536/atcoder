@@ -96,4 +96,7 @@
         "segtree": "cpp",
         "modint": "cpp"
     },
+    "flake8.args": [
+        "--ignore=E501,E741"
+    ],
 }
