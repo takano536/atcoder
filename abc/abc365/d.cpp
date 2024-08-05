@@ -1,11 +1,21 @@
+#include <algorithm>
+#include <array>
 #include <iostream>
 #include <map>
 #include <string>
 #include <vector>
 
 int main() {
-    std::map<char, int> HANDS = {{'R', 0}, {'S', 1}, {'P', 2}};
-    constexpr int NA = -1;
+    std::map<char, char> WINNABLE_HANDS = {
+        {'R', 'P'},
+        {'P', 'S'},
+        {'S', 'R'},
+    };
+    std::map<char, std::array<char, 2>> TRANSFERABLE_HANDS = {
+        {'R', {'P', 'S'}},
+        {'P', {'S', 'R'}},
+        {'S', {'R', 'P'}},
+    };
 
     int n;
     std::cin >> n;
@@ -13,59 +23,37 @@ int main() {
     std::string s;
     std::cin >> s;
 
-    std::vector dp(n, std::vector<int>(3, NA));
-    switch (s[0]) {
-        case 'S':
-            dp[0][HANDS['R']] = 1;
-            dp[0][HANDS['S']] = 0;
-            break;
-        case 'R':
-            dp[0][HANDS['P']] = 1;
-            dp[0][HANDS['R']] = 0;
-            break;
-        case 'P':
-            dp[0][HANDS['S']] = 1;
-            dp[0][HANDS['P']] = 0;
-            break;
-    }
+    std::vector dp(n, std::map<char, int>());
+    dp[0][s[0]] = 0;
+    dp[0][WINNABLE_HANDS.at(s[0])] = 1;
 
-    int ans = 1;
-    for (int i = 1; i < n; i++) {
-        const auto aoki = s[i];
-        switch (aoki) {
-            case 'S':
-                if (dp[i - 1][HANDS['S']] != NA || dp[i - 1][HANDS['P']] != NA) {
-                    dp[i][HANDS['R']] = std::max(dp[i - 1][HANDS['S']], dp[i - 1][HANDS['P']]) + 1;
-                }
-                if (dp[i - 1][HANDS['P']] != NA || dp[i - 1][HANDS['R']] != NA) {
-                    dp[i][HANDS['S']] = std::max(dp[i - 1][HANDS['P']], dp[i - 1][HANDS['R']]);
-                }
-                ans = std::max(ans, dp[i][HANDS['R']]);
-                ans = std::max(ans, dp[i][HANDS['S']]);
-                break;
-            case 'R':
-                if (dp[i - 1][HANDS['R']] != NA || dp[i - 1][HANDS['S']] != NA) {
-                    dp[i][HANDS['P']] = std::max(dp[i - 1][HANDS['R']], dp[i - 1][HANDS['S']]) + 1;
-                }
-                if (dp[i - 1][HANDS['P']] != NA || dp[i - 1][HANDS['S']] != NA) {
-                    dp[i][HANDS['R']] = std::max(dp[i - 1][HANDS['P']], dp[i - 1][HANDS['S']]);
-                }
-                ans = std::max(ans, dp[i][HANDS['P']]);
-                ans = std::max(ans, dp[i][HANDS['R']]);
-                break;
-            case 'P':
-                if (dp[i - 1][HANDS['P']] != NA || dp[i - 1][HANDS['R']] != NA) {
-                    dp[i][HANDS['S']] = std::max(dp[i - 1][HANDS['P']], dp[i - 1][HANDS['R']]) + 1;
-                }
-                if (dp[i - 1][HANDS['R']] != NA || dp[i - 1][HANDS['S']] != NA) {
-                    dp[i][HANDS['P']] = std::max(dp[i - 1][HANDS['R']], dp[i - 1][HANDS['S']]);
-                }
-                ans = std::max(ans, dp[i][HANDS['S']]);
-                ans = std::max(ans, dp[i][HANDS['P']]);
-                break;
+    auto is_transferable = [&TRANSFERABLE_HANDS](const char hand, const std::map<char, int> &prev) {
+        for (const char transferable_hand : TRANSFERABLE_HANDS[hand]) {
+            if (prev.contains(transferable_hand)) return true;
         }
+        return false;
+    };
+
+    auto transition = [&TRANSFERABLE_HANDS, &is_transferable](std::vector<std::map<char, int>> &dp, int i, const char hand, bool is_win) {
+        if (!is_transferable(hand, dp[i - 1])) return;
+
+        int prev_max = 0;
+        const auto transferable_hands = TRANSFERABLE_HANDS[hand];
+        for (const auto &[k, v] : dp[i - 1]) {
+            if (std::ranges::find(transferable_hands, k) != transferable_hands.end()) {
+                prev_max = std::max(prev_max, v);
+            }
+            dp[i][hand] = prev_max + (is_win ? 1 : 0);
+        }
+    };
+
+    for (int i = 1; i < n; i++) {
+        transition(dp, i, WINNABLE_HANDS[s[i]], true);
+        transition(dp, i, s[i], false);
     }
 
+    int ans = 0;
+    for (const auto &[_, v] : dp[n - 1]) ans = std::max(ans, v);
     std::cout << ans << std::endl;
     return 0;
 }
