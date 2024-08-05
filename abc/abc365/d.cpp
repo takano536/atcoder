@@ -27,16 +27,7 @@ int main() {
     dp[0][s[0]] = 0;
     dp[0][WINNABLE_HANDS.at(s[0])] = 1;
 
-    auto is_transferable = [&TRANSFERABLE_HANDS](const char hand, const std::map<char, int> &prev) {
-        for (const char transferable_hand : TRANSFERABLE_HANDS[hand]) {
-            if (prev.contains(transferable_hand)) return true;
-        }
-        return false;
-    };
-
-    auto transition = [&TRANSFERABLE_HANDS, &is_transferable](std::vector<std::map<char, int>> &dp, int i, const char hand, bool is_win) {
-        if (!is_transferable(hand, dp[i - 1])) return;
-
+    auto transition = [&TRANSFERABLE_HANDS](std::vector<std::map<char, int>> &dp, int i, const char hand, bool is_win) {
         int prev_max = 0;
         const auto transferable_hands = TRANSFERABLE_HANDS[hand];
         for (const auto &[k, v] : dp[i - 1]) {
