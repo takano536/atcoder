@@ -94,7 +94,8 @@
         "format": "cpp",
         "stdfloat": "cpp",
         "segtree": "cpp",
-        "modint": "cpp"
+        "modint": "cpp",
+        "text_encoding": "cpp"
     },
     "flake8.args": [
         "--ignore=E501,E741"
