@@ -1,6 +1,5 @@
 {
     "files.associations": {
-        "*.m": "matlab",
         "atomic": "cpp",
         "string": "cpp",
         "array": "cpp",
@@ -95,7 +94,8 @@
         "stdfloat": "cpp",
         "segtree": "cpp",
         "modint": "cpp",
-        "text_encoding": "cpp"
+        "text_encoding": "cpp",
+        "fenwicktree": "cpp"
     },
     "flake8.args": [
         "--ignore=E501,E741"
