@@ -1,53 +1,67 @@
 #include <iostream>
+#include <queue>
+#include <stdexcept>
 #include <utility>
 #include <vector>
-
-#include <atcoder/fenwicktree>
 
 int main() {
     int q;
     std::cin >> q;
 
-    int time = 0;
-    atcoder::fenwick_tree<long long> heights(q);
-    std::vector<long long> cnts(q);
-    int head = 0;
+    std::vector<long long> growth_cumsum{0};
+    std::queue<std::pair<int, int>> plant_queries;
+    int i = 0;
     while (q--) {
         int opt;
         std::cin >> opt;
 
         switch (opt) {
             case 1: {
-                cnts[time]++;
+                if (plant_queries.empty()) {
+                    plant_queries.emplace(1, i);
+                    break;
+                }
+
+                auto &[num, time] = plant_queries.back();
+                if (time == i) {
+                    num++;
+                    break;
+                }
+
+                plant_queries.emplace(1, i);
                 break;
             }
+
             case 2: {
                 int t;
                 std::cin >> t;
-                heights.add(time, t);
-                time++;
+                growth_cumsum.push_back(growth_cumsum.back() + t);
+                i++;
                 break;
             }
+
             case 3: {
                 int h;
                 std::cin >> h;
 
                 long long ans = 0;
-                int next_head = head;
-                for (int i = head; i <= time; i++) {
-                    if (cnts[i] == 0) continue;
-                    if (heights.sum(i, time + 1) >= h) {
-                        ans += cnts[i];
-                        cnts[i] = 0;
-                        next_head = i + 1;
-                    }
+                while (!plant_queries.empty()) {
+                    const auto &[num, time] = plant_queries.front();
+
+                    const auto height = growth_cumsum[i] - growth_cumsum[time];
+                    if (height < h) break;
+
+                    ans += num;
+                    plant_queries.pop();
                 }
-                head = next_head;
+
                 std::cout << ans << std::endl;
                 break;
             }
+
             default:
-                break;
+                throw std::runtime_error("invalid queries");
+                return -1;
         }
     }
     return 0;
