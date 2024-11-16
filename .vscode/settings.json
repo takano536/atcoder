@@ -95,7 +95,8 @@
         "segtree": "cpp",
         "modint": "cpp",
         "text_encoding": "cpp",
-        "fenwicktree": "cpp"
+        "fenwicktree": "cpp",
+        "lazysegtree": "cpp"
     },
     "flake8.args": [
         "--ignore=E501,E741"
