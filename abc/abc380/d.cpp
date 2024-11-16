@@ -8,7 +8,7 @@ int main() {
     std::cin >> s;
 
     std::string swapped_s = s;
-    for (auto &c : s) c = (std::isupper(c) ? std::tolower(c) : std::toupper(c));
+    for (auto &c : swapped_s) c = (std::isupper(c) ? std::tolower(c) : std::toupper(c));
 
     const int n = s.size();
 
@@ -20,7 +20,7 @@ int main() {
 
     for (const auto &ki : k) {
         long long group = (ki + n - 1) / n - 1;
-        bool is_swapped = !(std::bitset<64>(group).count() % 2);
+        bool is_swapped = std::bitset<64>(group).count() % 2;
         int idx = (ki - 1) % n;
         std::cout << (is_swapped ? swapped_s[idx] : s[idx]) << ' ';
     }
