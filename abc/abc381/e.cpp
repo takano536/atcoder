@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 int main() {
@@ -11,16 +12,19 @@ int main() {
     std::string s;
     std::cin >> s;
 
-    std::vector<int> one_num_cumsum(n + 1), two_num_cumsum(n + 1);
+    std::pair<std::vector<int>, std::vector<int>> cumsums = {
+        std::vector<int>(n + 1),
+        std::vector<int>(n + 1),
+    };
     std::vector<int> sep_idxes;
 
     for (int i = 0; i < n; i++) {
         switch (s[i]) {
             case '1':
-                one_num_cumsum[i + 1]++;
+                cumsums.first[i + 1]++;
                 break;
             case '2':
-                two_num_cumsum[i + 1]++;
+                cumsums.second[i + 1]++;
                 break;
             case '/':
                 sep_idxes.push_back(i + 1);
@@ -28,8 +32,8 @@ int main() {
             default:
                 std::runtime_error("invalid character");
         }
-        one_num_cumsum[i + 1] += one_num_cumsum[i];
-        two_num_cumsum[i + 1] += two_num_cumsum[i];
+        cumsums.first[i + 1] += cumsums.first[i];
+        cumsums.second[i + 1] += cumsums.second[i];
     }
 
     auto solve = [&]() {
@@ -40,30 +44,30 @@ int main() {
         while (ng - ok > 1) {
             auto mid = (ok + ng) / 2;
 
-            auto offset = one_num_cumsum[l - 1];
-            auto one_iter = std::ranges::lower_bound(one_num_cumsum, mid / 2 + offset);
-            if (one_iter == one_num_cumsum.end()) {
+            auto offset = cumsums.first[l - 1];
+            auto iter = std::ranges::lower_bound(cumsums.first, mid / 2 + offset);
+            if (iter == cumsums.first.end()) {
                 ng = mid;
                 continue;
             }
-            auto curr_idx = std::max<int>(l, std::distance(one_num_cumsum.begin(), one_iter));
+            auto idx = std::max<int>(l, std::distance(cumsums.first.begin(), iter));
 
-            auto sep_iter = std::ranges::lower_bound(sep_idxes, curr_idx);
-            if (sep_iter == sep_idxes.end()) {
+            iter = std::ranges::lower_bound(sep_idxes, idx);
+            if (iter == sep_idxes.end()) {
                 ng = mid;
                 continue;
             }
-            curr_idx = *sep_iter;
+            idx = *iter;
 
-            offset = two_num_cumsum[curr_idx];
-            auto two_iter = std::ranges::lower_bound(two_num_cumsum, mid / 2 + offset);
-            if (two_iter == two_num_cumsum.end()) {
+            offset = cumsums.second[idx];
+            iter = std::ranges::lower_bound(cumsums.second, mid / 2 + offset);
+            if (iter == cumsums.second.end()) {
                 ng = mid;
                 continue;
             }
-            curr_idx = std::max<int>(curr_idx, std::distance(two_num_cumsum.begin(), two_iter));
+            idx = std::max<int>(idx, std::distance(cumsums.second.begin(), iter));
 
-            (curr_idx <= r ? ok : ng) = mid;
+            (idx <= r ? ok : ng) = mid;
         }
 
         std::cout << ok << std::endl;
