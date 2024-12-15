@@ -1,7 +1,6 @@
 #include <array>
 #include <iostream>
-#include <map>
-#include <set>
+#include <queue>
 #include <utility>
 #include <vector>
 
@@ -28,43 +27,41 @@ int main() {
     }
 
     long long ans = s[p][q];
+
     std::vector has_visited(h, std::vector<bool>(w));
     has_visited[p][q] = true;
 
-    auto coord2id = [&](int i, int j) { return i * w + j; };
-    auto id2coord = [&](int id) { return std::make_pair(id / w, id % w); };
+    auto coord2id = [w](int i, int j) { return i * w + j; };
+    auto id2coord = [w](int id) { return std::make_pair(id / w, id % w); };
 
-    std::multiset<long long> que;
-    std::map<long long, std::vector<int>> size2id;
-    for (auto [di, dj] : DIRS) {
-        int ni = p + di, nj = q + dj;
-        if (ni < 0 || ni >= h || nj < 0 || nj >= w) continue;
-        que.insert(-s[ni][nj]);
-        size2id[s[ni][nj]].push_back(coord2id(ni, nj));
-        has_visited[ni][nj] = true;
-    }
+    std::priority_queue<
+        std::pair<long long, int>,
+        std::vector<std::pair<long long, int>>,
+        std::greater<std::pair<long long, int>>
+    > que;
 
-    while (!que.empty()) {
-        auto iter = que.lower_bound(-ans / x);
-        if (iter == que.end()) break;
-        if (ans % x == 0 && -*iter == ans / x) {
-            while (iter != que.end() && ans / x < -*iter) iter++;
-            if (iter == que.end() || ans / x >= -*iter) break;
-        }
-        auto size = -*iter;
-        que.erase(iter);
-        auto coord = id2coord(size2id[size].back());
-        size2id[size].pop_back();
-
-        ans += size;
-        for (auto [di, dj] : DIRS) {
-            int ni = coord.first + di, nj = coord.second + dj;
+    auto push = [&](int i, int j) {
+        for (const auto &[di, dj] : DIRS) {
+            int ni = i + di, nj = j + dj;
             if (ni < 0 || ni >= h || nj < 0 || nj >= w) continue;
             if (has_visited[ni][nj]) continue;
-            que.insert(-s[ni][nj]);
-            size2id[s[ni][nj]].push_back(coord2id(ni, nj));
+            que.emplace(s[ni][nj], coord2id(ni, nj));
             has_visited[ni][nj] = true;
         }
+    };
+    push(p, q);
+
+    while (!que.empty()) {
+        const auto [curr_size, curr_id] = que.top();
+        const auto [ci, cj] = id2coord(curr_id);
+        que.pop();
+
+        const long long max_size = ans / x - (ans % x == 0 ? 1 : 0);
+        if (curr_size > max_size) continue;
+
+        ans += curr_size;
+
+        push(ci, cj);
     }
 
     std::cout << ans << std::endl;
