@@ -5,7 +5,7 @@
 #include <vector>
 
 int main() {
-    std::array<std::pair<int, int>, 4> DIRS = {
+    constexpr std::array<std::pair<int, int>, 4> DIRS = {
         std::make_pair(0, 1),
         std::make_pair(0, -1),
         std::make_pair(1, 0),
@@ -31,8 +31,8 @@ int main() {
     std::vector has_visited(h, std::vector<bool>(w));
     has_visited[p][q] = true;
 
-    auto coord2id = [w](int i, int j) { return i * w + j; };
-    auto id2coord = [w](int id) { return std::make_pair(id / w, id % w); };
+    auto coord2id = [w](const int i, const int j) { return i * w + j; };
+    auto id2coord = [w](const int id) { return std::make_pair(id / w, id % w); };
 
     std::priority_queue<
         std::pair<long long, int>,
@@ -40,9 +40,9 @@ int main() {
         std::greater<std::pair<long long, int>>
     > que;
 
-    auto push = [&](int i, int j) {
+    auto push = [&](const int i, const int j) {
         for (const auto &[di, dj] : DIRS) {
-            int ni = i + di, nj = j + dj;
+            const int ni = i + di, nj = j + dj;
             if (ni < 0 || ni >= h || nj < 0 || nj >= w) continue;
             if (has_visited[ni][nj]) continue;
             que.emplace(s[ni][nj], coord2id(ni, nj));
