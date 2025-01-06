@@ -1,43 +1,51 @@
 #include <algorithm>
 #include <iostream>
-#include <set>
-
-#include <atcoder/dsu>
+#include <vector>
 
 int main() {
-    int n, m;
-    std::cin >> n >> m;
+    constexpr int NA = -1;
 
-    atcoder::dsu uf(n);
-    for (int i = 0; i < m; i++) {
+    int n;
+    std::cin >> n;
+
+    std::vector<std::vector<int>> graph(n);
+    std::vector<int> indegrees(n);
+    for (int i = 0; i < n - 1; i++) {
         int u, v;
         std::cin >> u >> v;
         u--, v--;
-        uf.merge(u, v);
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+        indegrees[u]++;
+        indegrees[v]++;
     }
 
-    std::set<std::pair<int, int>> bad_edges;
-    int k;
-    std::cin >> k;
-    for (int i = 0; i < k; i++) {
-        int x, y;
-        std::cin >> x >> y;
-        x--, y--;
-        auto x_leader = uf.leader(x);
-        auto y_leader = uf.leader(y);
-        bad_edges.insert({x_leader, y_leader});
-        bad_edges.insert({y_leader, x_leader});
+    std::vector<int> ans;
+    std::vector<bool> has_visited(n);
+    std::vector<int> colors(n, NA);
+    auto dfs = [&](auto &&f, int prev) -> void {
+        has_visited[prev] = true;
+        for (const auto &next : graph[prev]) {
+            if (colors[next] == NA) colors[next] = (colors[prev] + 1) % 3;
+            if (indegrees[next] == 1) continue;
+            if (has_visited[next]) continue;
+            f(f, next);
+        }
+        if (colors[prev] % 3 == 1) ans.push_back(indegrees[prev]);
+        return;
+    };
+
+    int sv = 0;
+    for (int i = 0; i < n; i++) {
+        if (indegrees[i] != 1) continue;
+        sv = i;
+        break;
     }
 
-    int q;
-    std::cin >> q;
-    for (int i = 0; i < q; i++) {
-        int p, q;
-        std::cin >> p >> q;
-        p--, q--;
-        auto p_leader = uf.leader(p);
-        auto q_leader = uf.leader(q);
-        std::cout << (bad_edges.find({p_leader, q_leader}) == bad_edges.end() ? "Yes" : "No") << std::endl;
-    }
-    return 0;
+    colors[sv] = 0;
+    dfs(dfs, sv);
+
+    std::ranges::sort(ans);
+    for (auto &num : ans) std::cout << num << ' ';
+    std::cout << std::endl;
 }
