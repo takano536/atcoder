@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <iostream>
-#include <numeric>
 #include <set>
 #include <stdexcept>
 #include <vector>
@@ -13,11 +12,12 @@ int main() {
 
     std::multiset<int, std::greater<int>> que;
     std::vector<int> closed_cans, can_openers;
+    long long ans = 0;
     for (std::size_t _ = 0; _ < n; _++) {
         int t, x;
         std::cin >> t >> x;
         switch (t) {
-            case 0: que.insert(x); break;
+            case 0: que.insert(x), ans += x; break;
             case 1: closed_cans.push_back(x); break;
             case 2: can_openers.push_back(x); break;
             default: throw std::runtime_error("invalid t");
@@ -35,9 +35,8 @@ int main() {
         }
         return curr_score;
     };
+    ans = pop(que, ans);
 
-    pop(que, 0LL);
-    long long ans = std::accumulate(que.begin(), que.end(), 0LL);
     long long curr_score = ans;
     for (const auto &can_opener : can_openers) {
         if (closed_cans.empty()) break;
