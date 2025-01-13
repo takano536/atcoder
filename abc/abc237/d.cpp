@@ -1,61 +1,45 @@
-#include <cassert>
 #include <iostream>
 #include <map>
-#include <string>
-#include <vector>
+#include <stdexcept>
 
 int main() {
-    const int NA = -1;
+    constexpr int TAIL = -3;
+    constexpr int HEAD = -2;
 
     int n;
-    std::string s;
-    std::cin >> n >> s;
+    std::cin >> n;
 
-    std::map<int, int> heads, tails;  // top --- back
-    heads[0] = NA;
-    tails[0] = NA;
+    std::map<int, int> tails, heads;
+    tails[0] = TAIL, heads[0] = HEAD;
+    tails[HEAD] = 0, heads[TAIL] = 0;
 
     for (int i = 1; i <= n; i++) {
-        switch (s[i - 1]) {
-            case 'R':
-                heads[i] = i - 1;
-                if (tails[i - 1] != NA) {
-                    heads[tails[i - 1]] = i;
-                }
+        char c;
+        std::cin >> c;
+        switch (c) {
+            case 'L': {
                 tails[i] = tails[i - 1];
+                heads[tails[i - 1]] = i;
                 tails[i - 1] = i;
+                heads[i] = i - 1;
                 break;
-            case 'L':
+            }
+            case 'R': {
                 tails[i] = i - 1;
-                if (heads[i - 1] != NA) {
-                    tails[heads[i - 1]] = i;
-                }
                 heads[i] = heads[i - 1];
+                tails[heads[i - 1]] = i;
                 heads[i - 1] = i;
                 break;
+            }
             default:
-                assert(false);
+                throw std::runtime_error("invalid input");
         }
     }
 
-    std::vector<int> ans;
-    int curr = NA;
-    for (const auto &[key, value] : heads) {
-        if (value == NA) {
-            ans.push_back(key);
-            curr = key;
-            break;
-        }
-    }
-    assert(curr != NA);
-
-    while (tails[curr] != NA) {
-        ans.push_back(tails[curr]);
-        curr = tails[curr];
-    }
-
-    for (const auto &num : ans) {
-        std::cout << num << ' ';
+    int curr = heads[TAIL];
+    for (int i = 0; i <= n; i++) {
+        std::cout << curr << ' ';
+        curr = heads[curr];
     }
     std::cout << std::endl;
     return 0;
