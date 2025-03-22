@@ -6,7 +6,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-std=gnu++20",
-                "-I${HOME}/.local/include",
+                "-I$HOME/.local/include",
                 "-Wall",
                 "-Wextra",
                 "-g3",
