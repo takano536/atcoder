@@ -30,16 +30,16 @@ class RollingHash {
     }
 
   private:
-    ull mod_add(ull a, ull b) {
-        return (a + b) % MOD;
+    ull mod_add(ull lhs, ull rhs) {
+        return (lhs + rhs) % MOD;
     }
 
-    ull mod_sub(ull a, ull b) {
-        return (a >= b) ? (a - b) : (a + MOD - b);
+    ull mod_sub(ull lhs, ull rhs) {
+        return (lhs >= rhs) ? (lhs - rhs) : (lhs + MOD - rhs);
     }
 
-    ull mod_mul(ull a, ull b) {
-        return static_cast<ull>(static_cast<u128>(a) * b % MOD);
+    ull mod_mul(ull lhs, ull rhs) {
+        return static_cast<ull>(static_cast<u128>(lhs) * rhs % MOD);
     }
 };
 
