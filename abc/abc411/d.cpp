@@ -26,20 +26,18 @@ int main() {
 
         const auto &[op, p, s] = queries[query_index];
         switch (op) {
-            case 1: {
+            case 1:
                 if (serach_pc_index != p) break;
                 return self(self, query_index - 1, SERVER_INDEX);
-            }
-            case 2: {
+
+            case 2:
                 if (serach_pc_index != p) break;
                 return self(self, query_index - 1, serach_pc_index) + s;
-                break;
-            }
-            case 3: {
+
+            case 3:
                 if (serach_pc_index != SERVER_INDEX) break;
                 return self(self, query_index - 1, p);
-                break;
-            }
+
             default: throw std::runtime_error("invalid option");
         }
         return self(self, query_index - 1, serach_pc_index);
