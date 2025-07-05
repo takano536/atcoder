@@ -98,7 +98,8 @@
         "fenwicktree": "cpp",
         "lazysegtree": "cpp",
         "generator": "cpp",
-        "print": "cpp"
+        "print": "cpp",
+        "queue": "cpp"
     },
     "flake8.args": [
         "--ignore=E501,E741"
