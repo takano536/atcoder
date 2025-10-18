@@ -104,11 +104,4 @@
     "flake8.args": [
         "--ignore=E501,E741"
     ],
-    "github.copilot.enable": {
-        "*": false,
-        "plaintext": true,
-        "markdown": true,
-        "scminput": false,
-        "cpp": false
-    },
 }
