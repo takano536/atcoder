@@ -12,8 +12,8 @@
             ],
             "windowsSdkVersion": "8.1",
             "compilerPath": "${env:SCOOP}\\apps\\mingw\\current\\bin\\gcc.exe",
-            "cStandard": "gnu11",
-            "cppStandard": "gnu++20",
+            "cStandard": "c23",
+            "cppStandard": "gnu++23",
             "intelliSenseMode": "windows-gcc-x64"
         },
         {
@@ -27,8 +27,8 @@
                 "_UNICODE"
             ],
             "compilerPath": "/usr/bin/gcc",
-            "cStandard": "gnu11",
-            "cppStandard": "gnu++20",
+            "cStandard": "c23",
+            "cppStandard": "gnu++23",
             "intelliSenseMode": "linux-gcc-x64"
         }
     ],
