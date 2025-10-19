@@ -8,14 +8,8 @@ for i in range(n - k + 1):
     else:
         counts[s[i:i + k]] = 1
 
-ans = 0
-for v in counts.values():
-    ans = max(v, ans)
-
-words = list()
-for k, v in counts.items():
-    if v == ans:
-        words.append(k)
+ans = max(counts.values())
+words = [word for word, count in counts.items() if count == ans]
 
 print(ans)
 print(*sorted(words))
