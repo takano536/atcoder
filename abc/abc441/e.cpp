@@ -6,22 +6,16 @@
 #include <atcoder/fenwicktree>
 
 long long count_inversions(const std::vector<int> &values) {
-    const int n = values.size();
-
     std::vector<int> compressed = values;
     std::ranges::sort(compressed);
     compressed.erase(std::unique(compressed.begin(), compressed.end()), compressed.end());
-
-    auto to_index = [&](int x) {
-        return lower_bound(compressed.begin(), compressed.end(), x) - compressed.begin();
-    };
 
     const int compressed_num = compressed.size();
     atcoder::fenwick_tree<long long> fenwick(compressed_num);
 
     long long inv_count = 0;
-    for (int i = 0; i < n; ++i) {
-        const int idx = to_index(values[i]);
+    for (const auto &value : values) {
+        const int idx = std::ranges::lower_bound(compressed, value) - compressed.begin();
         inv_count += fenwick.sum(idx + 1, compressed_num);
         fenwick.add(idx, 1);
     }
